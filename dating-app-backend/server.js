@@ -17,9 +17,63 @@ admin.initializeApp({
 app.use(cors());
 app.use(express.json());
 
-app.get('/', (req, res) => {
-  res.send('Hello from the backend!');
+app.post('/register', async (req, res) => {
+  const { email, password } = req.body;
+
+
+  if (!email || !password) {
+    return res.status(400).send('Email and password are required.');
+  }
+
+  if (!email.endsWith('@emich.edu')) {
+    return res.status(400).send('Email must end with @emich.edu.');
+  }
+
+  try {
+    const userRecord = await admin.auth().getUserByEmail(email);
+    if (userRecord) {
+      return res.status(400).send('Email is already in use.');
+    }
+  } catch (error) {
+    if (error.code !== 'auth/user-not-found') {
+      return res.status(500).send('Error checking email.');
+    }
+  }
+
+  try {
+    const newUser = await admin.auth().createUser({
+      email,
+      password,
+    });
+
+    res.status(201).send(`User created with UID: ${newUser.uid}`);
+  } catch (error) {
+    res.status(500).send(`Error creating user: ${error.message}`);
+  }
 });
+
+
+app.post('/login', async (req, res) => {
+  const { email, password } = req.body;
+
+  if (!email || !password) {
+    return res.status(400).send('Email and password are required.');
+  }
+
+  try {
+    const userRecord = await admin.auth().getUserByEmail(email);
+
+
+    if (userRecord) {
+      return res.status(200).send('Login successful. Redirecting to main page...');
+    } else {
+      return res.status(401).send('Invalid credentials.');
+    }
+  } catch (error) {
+    res.status(500).send(`Error logging in: ${error.message}`);
+  }
+});
+
 
 
 app.listen(port, () => {
