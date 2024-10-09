@@ -5,13 +5,14 @@ import MatchPage from './pages/MatchPage';
 import ChatPage from './pages/ChatPage';
 import ProfilePage from './pages/ProfilePage';
 import SettingsPage from './pages/SettingsPage';
-
+import Start from "./start"
 
 const App: React.FC = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<LandingPage />} />
+       <Route path="/App" element={<Start />} /> 
+        <Route path="/Start" element={<LandingPage />} />
         <Route path="/match" element={<MatchPage />} />
         <Route path="/chat" element={<ChatPage />} />
         <Route path="/profile" element={<ProfilePage />} />
