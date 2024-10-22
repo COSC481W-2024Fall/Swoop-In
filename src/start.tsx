@@ -32,7 +32,7 @@ const Start: React.FC = () => {
   
         if (userData && userData.password === password) {
           setMessage('Login successful! Redirecting...');
-          navigate('/Start'); // Redirect to the main app page after login
+          navigate('/LandingPage'); // Redirect to the main app page after login
         } else {
           setMessage('Invalid password.');
         }
