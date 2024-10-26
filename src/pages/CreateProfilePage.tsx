@@ -55,18 +55,17 @@ const CreateProfilePage: React.FC = () => {
                 className="block w-auto rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
             />
             {/* EDIT Images URGENT */}
-            <label 
-                htmlFor="text" 
-                className="block text-sm font-medium leading-6 text-gray-900">
-                Images
+            <label htmlFor="image-upload" className="block text-sm font-medium text-gray-700">
+                Upload Images
             </label>
-            <input 
-                type="text" 
-                id="att1" 
-                name="att1" 
-                value={images} 
-                onChange={(e) => setImages(e.target.value)}                  
-                className="block w-auto rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
+            <input
+                type="file"
+                id="image-upload"
+                name="images"
+                accept=".jpg, .jpeg, .png, .heic"
+                multiple
+                onChange={(e) =>setImages}
+                className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-green-50 file:text-green-700 hover:file:bg-green-100"
             />
             <label 
                 htmlFor="userage" 
@@ -88,8 +87,8 @@ const CreateProfilePage: React.FC = () => {
             </label>
             <input 
                 type="text" 
-                id="att1" 
-                name="att1" 
+                id="bio" 
+                name="bio" 
                 value={bio} 
                 onChange={(e) => setBio(e.target.value)}                  
                 className="block w-auto rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
@@ -101,8 +100,8 @@ const CreateProfilePage: React.FC = () => {
             </label>
             <input 
                 type="text" 
-                id="att1" 
-                name="att1" 
+                id="gender" 
+                name="gender" 
                 value={gender} 
                 onChange={(e) => setGender(e.target.value)}                  
                 className="block w-auto rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
@@ -112,8 +111,8 @@ const CreateProfilePage: React.FC = () => {
             </label>
             <input 
                 type="text" 
-                id="att1" 
-                name="att1" 
+                id="genderpreferrence" 
+                name="genderpreferrence" 
                 value={genderPreferrence} 
                 onChange={(e) => setgenderPreferrence(e.target.value)}                  
                 className="block w-auto rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
@@ -123,8 +122,8 @@ const CreateProfilePage: React.FC = () => {
                     Age Preferrence:
                 </label>
                 <select 
-                    id="age" 
-                    name="age" 
+                    id="agepreferrence" 
+                    name="agepreferrence" 
                     onChange={(e) => setagePreferrence(e.target.value)}
                     className="block w-auto rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6">
                         <option value="">--Select Age--</option>
@@ -143,8 +142,8 @@ const CreateProfilePage: React.FC = () => {
             </label>
             <input 
                 type="text" 
-                id="att1" 
-                name="att1" 
+                id="major" 
+                name="major" 
                 value={major} 
                 onChange={(e) => setMajor(e.target.value)}                  
                 className="block w-auto rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
