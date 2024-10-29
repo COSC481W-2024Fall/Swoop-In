@@ -7,6 +7,9 @@ import ProfilePage from './pages/ProfilePage';
 import SettingsPage from './pages/SettingsPage';
 import SignUpPage from './pages/SignUpPage';
 import CreateProfilePage from './pages/CreateProfilePage';
+
+import ChattingPage from './pages/ChattingPage';
+
 import Start from "./start"
 import { Sign } from 'crypto';
 
@@ -22,6 +25,7 @@ const App: React.FC = () => {
         <Route path="/chat" element={<ChatPage />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/settings" element={<SettingsPage />} />
+        <Route path="/chat/:chatId" element={<ChattingPage/>} />
       </Routes>
     </Router>
   );
