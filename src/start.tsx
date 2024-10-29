@@ -48,7 +48,9 @@ const Start: React.FC = () => {
 
   return (
     <>
-      <h1>Swoopin</h1>
+    <div className="flex items-center justify-center min-h-screen bg-gray-100 px-6 py-12">
+     <div title="profile-layout" className="flex flex-col w-full max-w-md bg-white p-8 rounded-lg shadow-lg">
+      <h1 className='flex items-center justify-center'>Swoopin</h1>
       <div title="website-layout" className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <img
@@ -87,7 +89,7 @@ const Start: React.FC = () => {
                   title="Invalid email address, must be EMU"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
@@ -98,7 +100,7 @@ const Start: React.FC = () => {
                   Password
                 </label>
                 <div className="text-sm">
-                  <a href="#" className="font-semibold text-green-600 hover:text-green-500">
+                  <a href="#" className="font-semibold text-primary hover:text-green-700">
                     Forgot password?
                   </a>
                 </div>
@@ -112,7 +114,7 @@ const Start: React.FC = () => {
                   autoComplete="current-password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-700 sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
@@ -120,19 +122,21 @@ const Start: React.FC = () => {
             <div>
               <button
                 type="submit"
-                className="flex w-full justify-center rounded-md bg-green-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
+                className="flex w-full justify-center rounded-md bg-primary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-700"
               >
                 Sign in
               </button>
             </div>
           </form>
-          <a href="/SignUpPage" className="font-semibold leading-6 text-green-600 hover:text-gray-500">
+          <a href="/SignUpPage" className="font-semibold leading-6 text-green-700 hover:text-gray-500">
             Sign Up
           </a>
 
-          {message && <p className="text-center text-red-500 mt-4">{message}</p>}
+          {message && <p className="text-center text-primary mt-4">{message}</p>}
         </div>
       </div>
+    </div>
+    </div>
     </>
   );
 };

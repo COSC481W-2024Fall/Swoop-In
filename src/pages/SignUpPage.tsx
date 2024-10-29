@@ -10,10 +10,9 @@ const SignUpPage: React.FC = () => {
 
 
     return (
-      <div title="website-layout" className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
-        <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-            <h1>Sign Up Page</h1>
-            <div>
+    <div className="flex items-center justify-center min-h-screen bg-gray-100 px-6 py-12">
+      <div title="website-layout" className="flex flex-1 flex-col justify-center sm:w-full sm:max-w-sm bg-white p-8 rounded-lg shadow-lg">
+            <h1 className="text-center text-xl font-bold mb-6">Sign Up Page</h1>
                 <form>
                     {/* Email Field */}
                     <label 
@@ -30,7 +29,7 @@ const SignUpPage: React.FC = () => {
                         title="Invalid email address, must be EMU" 
                         value={email} 
                         onChange={(e) => setEmail(e.target.value)}                  
-                        className="block w-auto rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6 mb-4"
                         />
 
                     {/* Username Field */}
@@ -46,7 +45,7 @@ const SignUpPage: React.FC = () => {
                         required 
                         value={username} 
                         onChange={(e) => setUsername(e.target.value)}                  
-                        className="block w-auto rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6 mb-4"
                         />
 
                     {/* Password Field */}
@@ -62,7 +61,7 @@ const SignUpPage: React.FC = () => {
                             required 
                             value={password} 
                             onChange={(e) => setPassword(e.target.value)}                  
-                            className="block w-auto rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6 mb-4"
                         />
                     {/* Re-confirm Password Field */}
                     <label 
@@ -77,18 +76,17 @@ const SignUpPage: React.FC = () => {
                             required 
                             value={confirmpassword} 
                             onChange={(e) => confirmPassword(e.target.value)}                  
-                            className="block w-auto rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6 mb-6"
                         />
                 </form>
-            </div>
                 <a href="/CreateProfilePage">
                     <button 
                         type="submit" 
-                        className="flex justify-center rounded-md bg-green-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600" >
+                        className="w-full rounded-md bg-primary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600 mb-4" >
                         Proceed to Creating your Profile
                     </button>
                 </a>
-                <a href="/">
+                <a href="/" className="text-center text-sm text-gray-600 hover:text-gray-900">
                     Back to Login
                 </a>
         </div>
