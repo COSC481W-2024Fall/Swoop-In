@@ -23,6 +23,9 @@ const SettingsPage: React.FC = () => {
     }
   };
 
+
+const SettingsPage: React.FC = () => {
+
   return (
     <div className={`flex flex-col min-h-screen ${isDarkMode ? 'bg-gray-900 text-white' : 'bg-white text-black'}`}>
       <header className="bg-primary text-white py-4">
@@ -91,5 +94,7 @@ const SettingsPage: React.FC = () => {
     </div>
   );
 };
+
+
 
 export default SettingsPage;
