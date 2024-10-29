@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ProfilePage: React.FC = () => {
+const SettingsPage: React.FC = () => {
   return (
     <div>
       <h1>Settings Page</h1>
@@ -9,4 +9,4 @@ const ProfilePage: React.FC = () => {
   );
 };
 
-export default ProfilePage;
+export default SettingsPage;
