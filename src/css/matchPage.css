@@ -1,5 +1,3 @@
-/* matchPage.css */
-
 .match-page-container {
     display: flex;
     flex-direction: column;
@@ -7,8 +5,7 @@
   }
   
   .match-page-header {
-    background-color: #046C54; /* Match the primary color */
-    color: white;
+    background-color: #046C54; 
     padding: 20px;
     text-align: center;
   }

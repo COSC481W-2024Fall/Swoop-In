@@ -13,13 +13,14 @@ const Start: React.FC = () => {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    setMessage('');
+    setMessage(''); // Clear any previous messages
 
     try {
-     
+      // Attempt to sign in the user with Firebase Auth
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
+      // Retrieve additional user data from Firestore
       const userDocRef = doc(db, 'Users', user.uid);
       const userDoc = await getDoc(userDocRef);
 

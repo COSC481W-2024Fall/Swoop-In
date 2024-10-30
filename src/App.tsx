@@ -10,7 +10,6 @@ import CreateProfilePage from './pages/CreateProfilePage';
 
 import ChattingPage from './pages/ChattingPage';
 
-
 import Start from "./start"
 
 const App: React.FC = () => {
