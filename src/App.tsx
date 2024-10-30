@@ -5,6 +5,11 @@ import MatchPage from './pages/MatchPage';
 import ChatPage from './pages/ChatPage';
 import ProfilePage from './pages/ProfilePage';
 import SettingsPage from './pages/SettingsPage';
+import SignUpPage from './pages/SignUpPage';
+import CreateProfilePage from './pages/CreateProfilePage';
+
+import ChattingPage from './pages/ChattingPage';
+
 import Start from "./start"
 
 const App: React.FC = () => {
@@ -12,11 +17,14 @@ const App: React.FC = () => {
     <Router>
       <Routes>
        <Route path="/" element={<Start />} /> 
-        <Route path="/LandingPage" element={<LandingPage />} />
-        <Route path="/match" element={<MatchPage />} />
-        <Route path="/chat" element={<ChatPage />} />
-        <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/settings" element={<SettingsPage />} />
+        <Route path="/SignUpPage" element={<SignUpPage />} />
+        <Route path="/CreateProfilePage/:id" element={<CreateProfilePage />} />
+        <Route path="/LandingPage/:id" element={<LandingPage />} />
+        <Route path="/match/:id" element={<MatchPage />} />
+        <Route path="/chat/:id" element={<ChatPage />} />
+        <Route path="/profile/:id" element={<ProfilePage />} />
+        <Route path="/settings/:id" element={<SettingsPage />} />
+        <Route path="/chat/:chatId/:chatId2" element={<ChattingPage/>} />
       </Routes>
     </Router>
   );
