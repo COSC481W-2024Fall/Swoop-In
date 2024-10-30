@@ -11,7 +11,6 @@ import CreateProfilePage from './pages/CreateProfilePage';
 import ChattingPage from './pages/ChattingPage';
 
 import Start from "./start"
-import { Sign } from 'crypto';
 
 const App: React.FC = () => {
   return (
@@ -19,13 +18,13 @@ const App: React.FC = () => {
       <Routes>
        <Route path="/" element={<Start />} /> 
         <Route path="/SignUpPage" element={<SignUpPage />} />
-        <Route path="/CreateProfilePage" element={<CreateProfilePage />} />
-        <Route path="/LandingPage" element={<LandingPage />} />
-        <Route path="/match" element={<MatchPage />} />
-        <Route path="/chat" element={<ChatPage />} />
-        <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/settings" element={<SettingsPage />} />
-        <Route path="/chat/:chatId" element={<ChattingPage/>} />
+        <Route path="/CreateProfilePage/:id" element={<CreateProfilePage />} />
+        <Route path="/LandingPage/:id" element={<LandingPage />} />
+        <Route path="/match/:id" element={<MatchPage />} />
+        <Route path="/chat/:id" element={<ChatPage />} />
+        <Route path="/profile/:id" element={<ProfilePage />} />
+        <Route path="/settings/:id" element={<SettingsPage />} />
+        <Route path="/chat/:chatId/:chatId2" element={<ChattingPage/>} />
       </Routes>
     </Router>
   );
