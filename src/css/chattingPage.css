@@ -1,0 +1,98 @@
+
+.chatting-page-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #f9f9f9;
+}
+
+
+.header {
+    background-color: #065f46; /* Dark green */
+    color: white;
+    padding: 16px;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.chatting-main {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 16px;
+}
+
+.messages-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+
+.message {
+    max-width: 70%;
+    padding: 10px 16px;
+    border-radius: 20px;
+    font-size: 1rem;
+    line-height: 1.4;
+    position: relative;
+    word-wrap: break-word;
+}
+
+
+.sent {
+    background-color: #dcfce7; 
+    align-self: flex-end;
+    color: #065f46;
+}
+
+
+.received {
+    background-color: #e5e7eb; 
+    align-self: flex-start;
+    color: #1f2937;
+}
+
+.message-text {
+    margin: 0;
+}
+
+.message-timestamp {
+    font-size: 0.75rem;
+    color: #6b7280; /* Gray */
+    margin-top: 4px;
+    text-align: right;
+}
+
+.message-input-container {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    border-top: 1px solid #e5e7eb;
+    background-color: #ffffff;
+}
+
+.message-input {
+    flex-grow: 1;
+    padding: 8px 12px;
+    border-radius: 20px;
+    border: 1px solid #e5e7eb;
+    outline: none;
+    font-size: 1rem;
+}
+
+.send-button {
+    background-color: #065f46;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 8px 16px;
+    margin-left: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.send-button:hover {
+    background-color: #047857;
+}
