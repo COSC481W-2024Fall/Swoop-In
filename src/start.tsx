@@ -1,71 +1,69 @@
 import './App.css';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { db } from './firebase-config'; // Import Firestore
-import { collection, query, where, getDocs } from 'firebase/firestore'; // Import necessary Firestore query methods
-import App from "./App" 
-import SignUpPage from  "./pages/SignUpPage"
+import { db, auth } from './firebase-config';
+import { doc, getDoc } from 'firebase/firestore';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+
 const Start: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
 
-  const handleRegister = async (e: React.FormEvent) => {
-    e.preventDefault();
-    try {
-
-      setMessage('User registered successfully.');
-    } catch (error: any) {
-      setMessage(`Error during registration: ${error.message}`);
-    }
-  };
-
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    setMessage(''); // Clear any previous messages
+
     try {
-      const q = query(collection(db, 'Users'), where('email', '==', email));
-      const querySnapshot = await getDocs(q);
-  
-      if (!querySnapshot.empty) {
-        const userDoc = querySnapshot.docs[0]; 
-        const userData = userDoc.data();
-  
-        if (userData && userData.password === password) {
-          setMessage('Login successful! Redirecting...');
-          navigate('/LandingPage'); // Redirect to the main app page after login
-        } else {
-          setMessage('Invalid password.');
-        }
+      // Attempt to sign in the user with Firebase Auth
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      // Retrieve additional user data from Firestore
+      const userDocRef = doc(db, 'Users', user.uid);
+      const userDoc = await getDoc(userDocRef);
+
+      if (userDoc.exists()) {
+        setMessage('Login successful! Redirecting...');
+        setTimeout(() => navigate(`/LandingPage/${user.uid}`), 1000);
       } else {
-        setMessage('User not found.');
+        setMessage('No additional user data found for this account.');
       }
     } catch (error: any) {
-      setMessage(`Error during login: ${error.message}`);
+      // Custom error messages based on Firebase error codes
+      switch (error.code) {
+        case 'auth/invalid-email':
+          setMessage('Invalid email format. Please enter a valid @emich.edu email.');
+          break;
+        case 'auth/user-disabled':
+          setMessage('This account has been disabled. Please contact support.');
+          break;
+        case 'auth/user-not-found':
+          setMessage('No account found with this email. Please check your email or sign up.');
+          break;
+        case 'auth/wrong-password':
+          setMessage('Incorrect password. Please try again or reset your password.');
+          break;
+        case 'auth/too-many-requests':
+          setMessage('Too many failed login attempts. Please try again later.');
+          break;
+        default:
+          setMessage('Login failed. Please check your credentials and try again.');
+          break;
+      }
     }
   };
-  
 
   return (
     <>
-    <div className="flex items-center justify-center min-h-screen bg-gray-100 px-6 py-12">
-     <div title="profile-layout" className="flex flex-col w-full max-w-md bg-white p-8 rounded-lg shadow-lg">
-      <h1 className='flex items-center justify-center'>Swoopin</h1>
+      <h1>SwoopIn</h1>
       <div title="website-layout" className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <img
             alt="SwoopIn"
             src="https://a.espncdn.com/i/teamlogos/ncaa/500/2199.png"
             className="mx-auto h-20 w-20"
-            srcSet="
-              https://a.espncdn.com/i/teamlogos/ncaa/200/2199.png 200w,
-              https://a.espncdn.com/i/teamlogos/ncaa/500/2199.png 500w
-            "
-            sizes="
-              (max-width: 600px) 25vw,  
-              (max-width: 1200px) 15vw,  
-              10vw
-            "
           />
           <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
             Sign in to your account
@@ -89,7 +87,7 @@ const Start: React.FC = () => {
                   title="Invalid email address, must be EMU"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
@@ -100,7 +98,7 @@ const Start: React.FC = () => {
                   Password
                 </label>
                 <div className="text-sm">
-                  <a href="#" className="font-semibold text-primary hover:text-green-700">
+                  <a href="/reset-password" className="font-semibold text-green-600 hover:text-green-500">
                     Forgot password?
                   </a>
                 </div>
@@ -114,7 +112,7 @@ const Start: React.FC = () => {
                   autoComplete="current-password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-700 sm:text-sm sm:leading-6"
+                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
                 />
               </div>
             </div>
@@ -122,21 +120,19 @@ const Start: React.FC = () => {
             <div>
               <button
                 type="submit"
-                className="flex w-full justify-center rounded-md bg-primary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-700"
+                className="flex w-full justify-center rounded-md bg-green-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
               >
                 Sign in
               </button>
             </div>
           </form>
-          <a href="/SignUpPage" className="font-semibold leading-6 text-green-700 hover:text-gray-500">
+          <a href="/SignUpPage" className="block text-center font-semibold leading-6 text-green-600 hover:text-gray-500 mt-4">
             Sign Up
           </a>
 
-          {message && <p className="text-center text-primary mt-4">{message}</p>}
+          {message && <p className={`text-center mt-4 ${message.includes('successful') ? 'text-green-500' : 'text-red-500'}`}>{message}</p>}
         </div>
       </div>
-    </div>
-    </div>
     </>
   );
 };

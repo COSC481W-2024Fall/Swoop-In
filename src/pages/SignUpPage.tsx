@@ -1,100 +1,160 @@
-import React ,{ useState }from "react";
-
-import CreateProfilePage from "./CreateProfilePage";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { auth, db } from "../firebase-config";
+import { doc, setDoc } from "firebase/firestore";
+import { createUserWithEmailAndPassword, sendEmailVerification, reload } from "firebase/auth";
+import "../css/signUpPage.css"; 
 
 const SignUpPage: React.FC = () => {
-    const [email, setEmail] = useState(''); 
-    const [username, setUsername] = useState(''); 
-    const [password, setPassword] = useState('');
-    const [confirmpassword, confirmPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmpassword, setConfirmPassword] = useState("");
+  const [message, setMessage] = useState("");
+  const [messageType, setMessageType] = useState<"error" | "success">("error");
+  const [isVerificationSent, setIsVerificationSent] = useState(false);
+  const navigate = useNavigate();
 
+  const handleSignUp = async (e: React.FormEvent) => {
+    e.preventDefault();
 
-    return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100 px-6 py-12">
-      <div title="website-layout" className="flex flex-1 flex-col justify-center sm:w-full sm:max-w-sm bg-white p-8 rounded-lg shadow-lg">
-            <h1 className="text-center text-xl font-bold mb-6">Sign Up Page</h1>
-                <form>
-                    {/* Email Field */}
-                    <label 
-                        htmlFor="email" 
-                        className="block text-sm font-medium leading-6 text-gray-900">
-                        Enter your email
-                    </label>
-                        <input 
-                        type="email" 
-                        id="email" 
-                        name="email" 
-                        required 
-                        pattern=".+@emich\.edu$" 
-                        title="Invalid email address, must be EMU" 
-                        value={email} 
-                        onChange={(e) => setEmail(e.target.value)}                  
-                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6 mb-4"
-                        />
+    if (!email.endsWith("@emich.edu")) {
+      setMessageType("error");
+      setMessage("Please use your EMU email address ending with @emich.edu.");
+      return;
+    }
+    if (password.length < 6) {
+      setMessageType("error");
+      setMessage("Password must be at least 6 characters long.");
+      return;
+    }
+    if (password !== confirmpassword) {
+      setMessageType("error");
+      setMessage("Passwords do not match.");
+      return;
+    }
 
-                    {/* Username Field */}
-                    <label 
-                        htmlFor="username" 
-                        className="block text-sm font-medium leading-6 text-gray-900">
-                        Enter a username
-                    </label>
-                        <input 
-                        type="username" 
-                        id="username" 
-                        name="username" 
-                        required 
-                        value={username} 
-                        onChange={(e) => setUsername(e.target.value)}                  
-                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6 mb-4"
-                        />
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
 
-                    {/* Password Field */}
-                    <label 
-                        htmlFor="password" 
-                        className="block text-sm font-medium leading-6 text-gray-900">
-                        Enter your new password
-                    </label>
-                        <input 
-                            type="password" 
-                            id="password" 
-                            name="password" 
-                            required 
-                            value={password} 
-                            onChange={(e) => setPassword(e.target.value)}                  
-                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6 mb-4"
-                        />
-                    {/* Re-confirm Password Field */}
-                    <label 
-                        htmlFor="password" 
-                        className="block text-sm font-medium leading-6 text-gray-900">
-                        Re-enter your new password
-                    </label>
-                        <input 
-                            type="password" 
-                            id="password" 
-                            name="password" 
-                            required 
-                            value={confirmpassword} 
-                            onChange={(e) => confirmPassword(e.target.value)}                  
-                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6 mb-6"
-                        />
-                </form>
-                <a href="/CreateProfilePage">
-                    <button 
-                        type="submit" 
-                        className="w-full rounded-md bg-primary px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600 mb-4" >
-                        Proceed to Creating your Profile
-                    </button>
-                </a>
-                <a href="/" className="text-center text-sm text-gray-600 hover:text-gray-900">
-                    Back to Login
-                </a>
-        </div>
+      await sendEmailVerification(user);
+      setIsVerificationSent(true);
+      setMessageType("success");
+      setMessage("Verification email sent! Please check your inbox.");
+
+      const checkVerificationStatus = setInterval(async () => {
+        await reload(user);
+        if (user.emailVerified) {
+          clearInterval(checkVerificationStatus);
+          setMessageType("success");
+          setMessage("Email verified! Redirecting...");
+
+          const userData = {
+            email: email,
+            firstName: "", 
+            lastName: "",
+            age: null,
+            bio: "",
+            gender: "",
+            major: "",
+            minAge: null,
+            maxAge: null,
+            preferredGender: "",
+            images: [], 
+            lastActive: new Date(),
+            settings: {
+              activeStatus: true,
+              blockList: [],
+              lightMode: true,
+              notification: true,
+            },
+            swipes: {
+              left: [],
+              right: [],
+              matches: [],
+            },
+            createdAt: new Date(),
+          };
+
+          await setDoc(doc(db, "Users", user.uid), userData);
+
+          navigate(`/CreateProfilePage/${user.uid}`);
+        }
+      }, 3000);
+    } catch (error: any) {
+      setIsVerificationSent(false);
+
+      let customMessage = "An error occurred. Please try again.";
+      switch (error.code) {
+        case "auth/email-already-in-use":
+          customMessage = "This email is already in use. Please use a different email.";
+          break;
+        case "auth/invalid-email":
+          customMessage = "The email address is invalid. Please check the format.";
+          break;
+        case "auth/weak-password":
+          customMessage = "Password is too weak. Please use at least 6 characters.";
+          break;
+        case "auth/network-request-failed":
+          customMessage = "Network error. Please check your internet connection.";
+          break;
+      }
+
+      setMessageType("error");
+      setMessage(customMessage);
+    }
+  };
+
+  return (
+    <div className="sign-up-page container">
+      <div className="sign-up-layout">
+        <h1 className="sign-up-title">Sign Up Page</h1>
+        <form onSubmit={handleSignUp} className="form">
+          <label htmlFor="email" className="label">Enter your email</label>
+          <input
+            type="email"
+            id="email"
+            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="input-field"
+          />
+
+          <label htmlFor="password" className="label">Enter your new password</label>
+          <input
+            type="password"
+            id="password"
+            required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="input-field"
+          />
+
+          <label htmlFor="confirmpassword" className="label">Re-enter your new password</label>
+          <input
+            type="password"
+            id="confirmpassword"
+            required
+            value={confirmpassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            className="input-field"
+          />
+
+          <button type="submit" className="submit-button">
+            {isVerificationSent ? "Check Email for Verification" : "Proceed to Create Profile"}
+          </button>
+        </form>
+        
+        {message && (
+          <p className={`message ${messageType === "error" ? "error-message" : "success-message"}`}>
+            {message}
+          </p>
+        )}
+
+        <a href="/" className="back-link">Back to Login</a>
       </div>
-      
-    );
+    </div>
+  );
 };
-  
+
 export default SignUpPage;
-
-
