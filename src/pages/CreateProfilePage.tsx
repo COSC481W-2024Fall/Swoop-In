@@ -73,11 +73,22 @@ const CreateProfilePage: React.FC = () => {
   };
 
   return (
-    <div className="create-profile-page container">
+    <> 
+    <div>
+    <h1 className="title">SwoopIn</h1>
+          <img
+            alt="SwoopIn"
+            src="https://a.espncdn.com/i/teamlogos/ncaa/500/2199.png"
+            className="mx-auto h-20 w-20"
+          />
+    </div>
+    <div className="create-profile-page">
+      <div className="container">
       <div className="profile-layout">
         <h1 className="profile-title">Create Your Profile</h1>
         {error && <p className="error-message">{error}</p>}
         <form onSubmit={handleProfileCreation}>
+          <div className="text-left">
           <label htmlFor="firstName" className="label">First Name</label>
           <input
             type="text"
@@ -194,9 +205,15 @@ const CreateProfilePage: React.FC = () => {
           </div>
 
           <button type="submit" className="submit-button">Start Connecting!</button>
+          </div>
         </form>
+        
+        <a href="/" className="back-link">Return to Sign in Page</a>
+            
+        </div>
       </div>
     </div>
+    </>
   );
 };
 

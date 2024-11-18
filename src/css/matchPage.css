@@ -1,3 +1,12 @@
+:root {
+  --primary-color: #047857; /* Primary color for buttons and header */
+  --text-color: #ffffff;
+  --background-color: #f9f9f9;
+  --button-bg-color: var(--primary-color);
+  --button-hover-color: #1c2e5a;
+  --carousel-border-color: var(--primary-color);
+}
+
 .match-page-container {
     display: flex;
     flex-direction: column;
@@ -5,13 +14,15 @@
   }
   
   .match-page-header {
-    background-color: #046C54; 
-    padding: 20px;
+    background-color: var(--primary-color);
+    color: #000000;
+    padding: 16px 0;
     text-align: center;
-  }
+    max-height: 75px;
+    }
   
   .match-page-title {
-    font-size: 2rem;
+    font-size: 24px;
     font-weight: bold;
     margin: 0;
   }

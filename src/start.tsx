@@ -1,4 +1,4 @@
-import './App.css';
+import './css/start.css';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { db, auth } from './firebase-config';
@@ -57,7 +57,7 @@ const Start: React.FC = () => {
 
   return (
     <>
-      <h1>SwoopIn</h1>
+      <h1 className="title">SwoopIn</h1>
       <div title="website-layout" className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
           <img
@@ -65,18 +65,17 @@ const Start: React.FC = () => {
             src="https://a.espncdn.com/i/teamlogos/ncaa/500/2199.png"
             className="mx-auto h-20 w-20"
           />
-          <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
+          <h2 className="title text-center">
             Sign in to your account
           </h2>
         </div>
 
-        <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+        <div className="container">
           <form onSubmit={handleLogin} className="space-y-6">
             <div>
-              <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
+              <label htmlFor="email" className="form-label text-left">
                 Email address
               </label>
-              <div className="mt-2">
                 <input
                   id="email"
                   name="email"
@@ -87,21 +86,21 @@ const Start: React.FC = () => {
                   title="Invalid email address, must be EMU"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  className="input-field"
                 />
-              </div>
+           
             </div>
 
             <div>
               <div className="flex items-center justify-between">
-                <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
+                <label htmlFor="password" className="form-label">
                   Password
                 </label>
-                <div className="text-sm">
-                  <a href="/reset-password" className="font-semibold text-green-600 hover:text-green-500">
+              
+                  <a href="/reset-password" className="text-green text-sm">
                     Forgot password?
                   </a>
-                </div>
+               
               </div>
               <div className="mt-2">
                 <input
@@ -112,7 +111,7 @@ const Start: React.FC = () => {
                   autoComplete="current-password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-green-600 sm:text-sm sm:leading-6"
+                  className="input-field"
                 />
               </div>
             </div>
@@ -120,13 +119,13 @@ const Start: React.FC = () => {
             <div>
               <button
                 type="submit"
-                className="flex w-full justify-center rounded-md bg-green-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
+                className="button "
               >
                 Sign in
               </button>
             </div>
           </form>
-          <a href="/SignUpPage" className="block text-center font-semibold leading-6 text-green-600 hover:text-gray-500 mt-4">
+          <a href="/SignUpPage" className="text-green">
             Sign Up
           </a>
 

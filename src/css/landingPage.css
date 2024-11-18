@@ -1,13 +1,13 @@
 /* LandingPage.css */
 
 :root {
-    --primary-color: #1e3a8a; /* Primary color for buttons and header */
-    --text-color: #ffffff;
-    --background-color: #f3f4f6;
-    --button-bg-color: var(--primary-color);
-    --button-hover-color: #1c2e5a;
-    --carousel-border-color: var(--primary-color);
-  }
+  --primary-color: #047857; /* Primary color for buttons and header */
+  --text-color: #ffffff;
+  --background-color: #f9f9f9;
+  --button-bg-color: var(--primary-color);
+  --button-hover-color: #1c2e5a;
+  --carousel-border-color: var(--primary-color);
+}
   
   .container {
     display: flex;
@@ -17,11 +17,12 @@
   
   header {
     background-color: var(--primary-color);
-    color: var(--text-color);
+    color: #000000;
     padding: 16px 0;
     text-align: center;
     font-size: 24px;
     font-weight: bold;
+    max-height: 75px;
   }
   
   .carousel-container {

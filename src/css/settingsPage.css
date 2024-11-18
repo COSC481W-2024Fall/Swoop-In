@@ -1,9 +1,17 @@
-
+:root {
+  --primary-color: #047857; /* Primary color for buttons and header */
+  --text-color: #ffffff;
+  --background-color: #f9f9f9;
+  --button-bg-color: var(--primary-color);
+  --button-hover-color: #1c2e5a;
+  --carousel-border-color: var(--primary-color);
+}
 .settings-container {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
     background-color: var(--background-color, #ffffff);
+    --text-color:  #000000; 
     color: var(--text-color, #000000);
     transition: background-color 0.3s ease, color 0.3s ease;
   }
@@ -13,14 +21,14 @@
     --text-color: #ffffff; 
   }
   
-  .header {
-    width: 100%;
-    background-color: #006400; 
-    color: #ffffff;
-    padding: 1rem;
+  header {
+    background-color: var(--primary-color);
+    color: #000000;
+    padding: 16px 0;
     text-align: center;
-    font-size: 1.5rem;
+    font-size: 24px;
     font-weight: bold;
+    max-height: 75px;
   }
   
   .main-content {

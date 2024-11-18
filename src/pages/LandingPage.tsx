@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useParams, useNavigate} from 'react-router-dom';
 import {auth} from '../firebase-config';
 import Footer from '../componets/Footer';
+import "../css/landingPage.css";
 
 interface CarouselItem {
   id: number;
@@ -53,7 +54,7 @@ const LandingPage: React.FC = () => {
     <div className="flex flex-col min-h-screen">
       <header className="bg-primary text-white py-4 relative">
         <div className="container mx-auto px-4 flex justify-between items-center">
-          <h1 className="text-2xl font-bold">Swoop In</h1>
+          <h1 className="text-2xl font-bold ">Swoop In</h1>
           
         </div>
       </header>

@@ -131,11 +131,10 @@ const ChatPage: React.FC = () => {
 
   return (
     <div className="chat-page-container flex flex-col min-h-screen">
-      <header className="bg-primary text-white py-4">
-        <div className="container mx-auto px-4 flex justify-between items-center">
-          <h1 className="text-2xl font-bold">Your Chats</h1>
-        </div>
-      </header>
+      
+          <h1 className="header">Your Chats</h1>
+      
+    
 
       <main className="flex-grow container mx-auto px-4 py-8">
         {isLoading ? (

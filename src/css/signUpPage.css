@@ -1,21 +1,33 @@
-.sign-up-page {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background-color: #f3f4f6;
-    padding: 24px;
-  }
+:root {
+  --primary-color: #047857; /* Primary color for buttons and header */
+  --text-color: #ffffff;
+  --background-color: #f9f9f9;
+  --button-bg-color: var(--primary-color);
+  --button-hover-color: #1c2e5a;
+  --carousel-border-color: var(--primary-color);
+}
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f9f9f9;
+}
+
+
+.signup-page{
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  justify-content: center;
+  padding: 3rem 1.5rem;
+}
   
   .sign-up-layout {
     display: flex;
     flex-direction: column;
     width: 100%;
-    max-width: 400px;
-    background-color: #fff;
+    max-width: 800px;
+    background-color: #f9f9f9;
     padding: 32px;
     border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   }
   
   .sign-up-title {
@@ -30,6 +42,7 @@
     font-weight: medium;
     color: #111827;
     margin-top: 16px;
+    
   }
   
   .input-field {
@@ -44,7 +57,7 @@
   
   .input-field:focus {
     outline: none;
-    border-color: #4f46e5;
+    border-color:  #006644;
     box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.3);
   }
   
@@ -80,14 +93,14 @@
   .success-message {
     color: #10b981;
     background-color: #d1fae5;
-    border: 1px solid #86efac;
+    border: 1px solid #006644;
   }
   
   .back-link {
     display: block;
     text-align: center;
     margin-top: 16px;
-    color: #10b981;
+    color: #006644;
     font-weight: medium;
     transition: color 0.3s;
   }

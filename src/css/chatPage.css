@@ -1,4 +1,11 @@
-
+:root {
+    --primary-color: #047857; /* Primary color for buttons and header */
+    --text-color: #ffffff;
+    --background-color: #f9f9f9;
+    --button-bg-color: var(--primary-color);
+    --button-hover-color: #1c2e5a;
+    --carousel-border-color: var(--primary-color);
+  }
 .chat-page-container {
     display: flex;
     flex-direction: column;
@@ -7,13 +14,14 @@
 }
 
 .header {
-    background-color: #065f46; 
-    color: white;
-    padding: 16px;
+    background-color: var(--primary-color);
+    color: #000000;
+    padding: 16px 0;
     text-align: center;
-    font-size: 1.5rem;
+    font-size: 24px;
     font-weight: bold;
-}
+    max-height: 75px;
+  }
 
 
 .chat-list {
@@ -37,7 +45,7 @@
 }
 
 .chat-item:hover {
-    background-color: #f1f5f9; 
+    background-color: #f9f9f9; 
 }
 
 .chat-item h2 {

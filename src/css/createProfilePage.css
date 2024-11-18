@@ -1,10 +1,19 @@
+:root {
+  --primary-color: #047857; /* Primary color for buttons and header */
+  --text-color: #ffffff;
+  --background-color: #f9f9f9;
+  --button-bg-color: var(--primary-color);
+  --button-hover-color: #1c2e5a;
+  --carousel-border-color: var(--primary-color);
+}
+
 .create-profile-page {
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-color: #f3f4f6;
-    padding: 24px;
+    background-color: #f9f9f9;
+
   }
   
   .create-profile-page .container {
@@ -20,10 +29,9 @@
     flex-direction: column;
     width: 100%;
     max-width: 400px;
-    background-color: #fff;
+    background-color: #f9f9f9;
     padding: 32px;
     border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   }
   
   .create-profile-page .profile-title {
@@ -55,27 +63,28 @@
   .create-profile-page .select-field,
   .create-profile-page .textarea-field {
     width: 100%;
-    padding: 8px 12px;
-    border-radius: 4px;
-    border: 1px solid #d1d5db;
-    color: #111827;
+    padding: 0.75rem 0.75rem;
+    border-radius: 0.375rem;
+    border: 1px solid #e5e7eb;
+    color: #1f2937;
     background-color: #fff;
     font-size: 0.875rem;
+    line-height: 1.5;
   }
   
   .create-profile-page .input-field:focus,
   .create-profile-page .select-field:focus,
   .create-profile-page .textarea-field:focus {
     outline: none;
-    border-color: #4f46e5;
-    box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.3);
+    box-shadow: 0 0 0 2px #047857;
+    border-color: #047857;
   }
   
   .create-profile-page .file-input {
     width: 100%;
-    color: #4a5568; 
+    color: #047857; 
     cursor: pointer;
-    background-color: #e2e8f0; 
+    background-color: #f9f9f9; 
     padding: 8px;
     border-radius: 4px;
     font-weight: 500;
@@ -103,18 +112,32 @@
   }
   
   .create-profile-page .submit-button {
+    display: flex;
     width: 100%;
-    margin-top: 24px;
-    padding: 12px;
-    background-color: #10b981;
-    color: #fff;
-    font-weight: bold;
-    border-radius: 4px;
+    justify-content: center;
+    background-color: #047857;
+    padding: 0.75rem 1rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: white;
+    border-radius: 0.375rem;
     cursor: pointer;
-    transition: background-color 0.3s;
+    text-align: center;
+    transition: background-color 0.3s ease;
   }
   
   .create-profile-page .submit-button:hover {
-    background-color: #059669;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    background-color: #047857;
+    padding: 0.75rem 1rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #fff;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s ease;
   }
   

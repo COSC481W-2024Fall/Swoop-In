@@ -97,7 +97,7 @@ const SettingsPage: React.FC = () => {
   return (
     <div className={`settings-container ${isDarkMode ? 'dark-mode' : ''}`}>
       <header className="header">
-        <h1>Settings</h1>
+        Settings
       </header>
 
       <main className="main-content">
