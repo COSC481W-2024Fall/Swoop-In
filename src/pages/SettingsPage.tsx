@@ -4,7 +4,7 @@ import { auth, db } from '../firebase-config';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { sendPasswordResetEmail } from 'firebase/auth';
 import Footer from '../componets/Footer';
-import "../css/settingsPage.css"; 
+import "../css/settingsPage.css";
 
 const SettingsPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -14,10 +14,30 @@ const SettingsPage: React.FC = () => {
   const [activeStatus, setActiveStatus] = useState(true);
   const [receiveNotifications, setReceiveNotifications] = useState(true);
   const [isDarkMode, setIsDarkMode] = useState(false);
-  const [email, setEmail] = useState(''); 
+  const [email, setEmail] = useState('');
   const [resetMessage, setResetMessage] = useState<string | null>(null);
 
   useEffect(() => {
+    let isMounted = true;
+
+    const fetchUserSettings = async () => {
+      try {
+        const userDoc = await getDoc(doc(db, "Users", user_uid));
+        if (userDoc.exists() && isMounted) {
+          const userData = userDoc.data();
+          setActiveStatus(userData?.settings?.activeStatus ?? true);
+          setReceiveNotifications(userData?.settings?.notification ?? true);
+
+          
+          const isDarkMode = !userData.settings?.lightMode;
+          setIsDarkMode(isDarkMode);
+          document.body.classList.toggle('dark-mode', isDarkMode); 
+        }
+      } catch (error) {
+        console.error("Error fetching settings:", error);
+      }
+    };
+
     const checkUserAuthorization = async () => {
       const currentUser = auth.currentUser;
 
@@ -33,23 +53,29 @@ const SettingsPage: React.FC = () => {
       }
     };
 
-    const fetchUserSettings = async () => {
-      try {
-        const userDoc = await getDoc(doc(db, "Users", user_uid));
-        if (userDoc.exists()) {
-          const userData = userDoc.data();
-          setActiveStatus(userData?.settings?.activeStatus ?? true);
-          setReceiveNotifications(userData?.settings?.notification ?? true);
-          setIsDarkMode(userData?.settings?.lightMode ?? false);
-          setEmail(userData?.email ?? ''); 
-        }
-      } catch (error) {
-        console.error("Error fetching settings:", error);
-      }
-    };
-
     checkUserAuthorization();
+
+    return () => {
+      isMounted = false;
+    };
   }, [user_uid, navigate]);
+
+  const toggleDarkMode = async () => {
+    const newDarkModeState = !isDarkMode;
+
+    try {
+      
+      await updateDoc(doc(db, "Users", user_uid), {
+        "settings.lightMode": !newDarkModeState,
+      });
+
+      
+      setIsDarkMode(newDarkModeState);
+      document.body.classList.toggle('dark-mode', newDarkModeState); 
+    } catch (error) {
+      console.error("Error updating dark mode setting:", error);
+    }
+  };
 
   const toggleActiveStatus = async () => {
     setActiveStatus((prev) => !prev);
@@ -59,11 +85,6 @@ const SettingsPage: React.FC = () => {
   const toggleNotifications = async () => {
     setReceiveNotifications((prev) => !prev);
     await updateSetting("notification", !receiveNotifications);
-  };
-
-  const toggleDarkMode = async () => {
-    setIsDarkMode((prev) => !prev);
-    await updateSetting("lightMode", !isDarkMode);
   };
 
   const updateSetting = async (settingName: string, value: boolean) => {
@@ -114,7 +135,6 @@ const SettingsPage: React.FC = () => {
           </div>
         </div>
 
-       
         <div className="section">
           <h2 className="section-title">Notifications</h2>
           <div className="flex justify-between items-center mt-2">
@@ -128,7 +148,6 @@ const SettingsPage: React.FC = () => {
           </div>
         </div>
 
-]
         <div className="section">
           <h2 className="section-title">Theme</h2>
           <div className="flex justify-between items-center mt-2">
@@ -142,25 +161,23 @@ const SettingsPage: React.FC = () => {
           </div>
         </div>
 
-
         <div className="section">
-  <h2 className="section-title">Account Information</h2>
-  <div className="account-info-container">
-    <p>Email: {email}</p>
-    <button
-      onClick={handlePasswordReset}
-      className="reset-button"
-    >
-      Send Password Reset Email
-    </button>
-    {resetMessage && (
-      <p className={`reset-message ${resetMessage.includes("sent") ? "success" : "error"}`}>
-        {resetMessage}
-      </p>
-    )}
-  </div>
-</div>
-
+          <h2 className="section-title">Account Information</h2>
+          <div className="account-info-container">
+            <p>Email: {email}</p>
+            <button
+              onClick={handlePasswordReset}
+              className="reset-button"
+            >
+              Send Password Reset Email
+            </button>
+            {resetMessage && (
+              <p className={`reset-message ${resetMessage.includes("sent") ? "success" : "error"}`}>
+                {resetMessage}
+              </p>
+            )}
+          </div>
+        </div>
 
         <button onClick={handleSignOut} className="sign-out-button">
           Sign Out

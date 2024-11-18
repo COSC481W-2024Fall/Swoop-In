@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { auth, db } from '../firebase-config';
 import Footer from "../componets/Footer";
-import "../css/profilePage.css"; 
+import "../css/profilePage.css";
 
 interface Profile {
   firstName: string;
@@ -20,20 +20,23 @@ interface Profile {
 
 const ProfilePage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const user_uid = id ?? ""; 
+  const user_uid = id ?? "";
   const navigate = useNavigate();
   const [profile, setProfile] = useState<Profile | null>(null);
   const [initialProfile, setInitialProfile] = useState<Profile | null>(null);
+  const [isDarkMode, setIsDarkMode] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const [isSuccess, setIsSuccess] = useState<boolean | null>(null);
 
   useEffect(() => {
+    let isMounted = true; 
     const fetchUserProfile = async () => {
       try {
         const docRef = doc(db, "Users", user_uid);
         const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-          const userData = docSnap.data() as Profile;
+
+        if (docSnap.exists() && isMounted) {
+          const userData = docSnap.data() as Profile & { settings?: { lightMode?: boolean } };
           setProfile({
             ...userData,
             age: userData.age || '',
@@ -41,14 +44,19 @@ const ProfilePage: React.FC = () => {
             maxAge: userData.maxAge || '',
           });
           setInitialProfile(userData);
-        } else {
+
+          
+          setIsDarkMode(!userData.settings?.lightMode);
+        } else if (isMounted) {
           setMessage("User profile not found.");
           setIsSuccess(false);
         }
       } catch (error) {
         console.error("Error fetching user profile:", error);
-        setMessage("Failed to load profile. Please try again later.");
-        setIsSuccess(false);
+        if (isMounted) {
+          setMessage("Failed to load profile. Please try again later.");
+          setIsSuccess(false);
+        }
       }
     };
 
@@ -67,13 +75,17 @@ const ProfilePage: React.FC = () => {
     };
 
     checkUserAuthorization();
+
+    return () => {
+      isMounted = false; 
+    };
   }, [user_uid, navigate]);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
-    setProfile((prev) => prev ? { ...prev, [name]: value } : prev);
+    setProfile((prev) => (prev ? { ...prev, [name]: value } : prev));
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -125,7 +137,7 @@ const ProfilePage: React.FC = () => {
   };
 
   const handleCancelChanges = () => {
-    setProfile(initialProfile); 
+    setProfile(initialProfile);
     setMessage(null);
   };
 
@@ -134,9 +146,9 @@ const ProfilePage: React.FC = () => {
   }
 
   return (
-    <div className="profile-container">
+    <div className={`profile-container ${isDarkMode ? 'dark-mode' : ''}`}>
       <div className="profile-header">Edit Profile</div>
-      
+
       <div className="profile-layout">
         {message && (
           <p className={isSuccess ? "success-message" : "error-message"}>
