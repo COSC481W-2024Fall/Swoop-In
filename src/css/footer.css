@@ -25,9 +25,7 @@
     transition: color 0.2s ease;
   }
   
-  .footer-link:hover {
-    color: #007bff; 
-  }
+  
   
   .footer-icon {
     width: 24px;
