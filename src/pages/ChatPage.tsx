@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { auth, db } from "../firebase-config";
+
 import {
   collection,
   getDocs,
@@ -10,6 +11,7 @@ import {
   getDoc,
   setDoc,
 } from "firebase/firestore";
+
 import Footer from "../componets/Footer";
 import "../css/chatPage.css";
 
@@ -66,7 +68,9 @@ const ChatPage: React.FC = () => {
           const chatData = chatDoc.data();
           const otherUserId =
             chatData.user1 === user_uid ? chatData.user2 : chatData.user1;
-          userIdsToFetch.add(otherUserId);
+
+          const otherUserId = chatData.user1 === user_uid ? chatData.user2 : chatData.user1;
+
 
           fetchedChats.push({
             id: chatDoc.id,
@@ -87,9 +91,12 @@ const ChatPage: React.FC = () => {
           const rightSwipesIds = userData.swipes?.right || [];
 
           for (const otherUserId of rightSwipesIds) {
+
             const hasChat = fetchedChats.some(
               (chat) => chat.otherUserId === otherUserId
             );
+
+
             if (!hasChat) {
               const otherUserDoc = await getDoc(doc(db, "Users", otherUserId));
               if (otherUserDoc.exists()) {
@@ -100,6 +107,7 @@ const ChatPage: React.FC = () => {
                   lastName: otherUserData.lastName || "User",
                   imageUrl:
                     otherUserData.images?.[0] || "/default-profile.png",
+                  imageUrl: otherUserData.images?.[0] || "/default-profile.png",
                 });
 
                 await setDoc(doc(db, "Chats", `${user_uid}_${otherUserId}`), {
@@ -124,14 +132,17 @@ const ChatPage: React.FC = () => {
               uid: userId,
               firstName: userData.firstName || "Unknown",
               lastName: userData.lastName || "User",
+
               imageUrl:
                 userData.images?.[0] || "/default-profile.png",
+
             };
           }
         }
 
         const chatsWithDetails = fetchedChats.map((chat) => ({
           ...chat,
+
           otherUserImage:
             userDetailsFetched[chat.otherUserId]?.imageUrl ||
             "/default-profile.png",
@@ -140,6 +151,7 @@ const ChatPage: React.FC = () => {
           } ${
             userDetailsFetched[chat.otherUserId]?.lastName || "User"
           }`,
+
         }));
 
         setChats(chatsWithDetails);
