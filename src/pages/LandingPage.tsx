@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useParams, useNavigate} from 'react-router-dom';
-import {auth, db} from '../firebase-config';
+import { Link, useParams, useNavigate } from 'react-router-dom';
+import { auth } from '../firebase-config';
 import Footer from '../componets/Footer';
-import { collection, doc, getDocs, getDoc, updateDoc } from 'firebase/firestore';
+import "../css/landingPage.css";
 
 
 interface Profile {
@@ -18,7 +18,8 @@ const LandingPage: React.FC = () => {
   const [currentProfile, setCurrentProfile] = useState(0)
   const [error, setError] = useState<string | null>(null);
   const { id } = useParams<{ id: string }>();
-  const user_uid = id ?? ""; 
+  const user_uid = id ?? "";
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -78,31 +79,12 @@ const LandingPage: React.FC = () => {
     checkUserAuthorization();
   }, [user_uid, navigate]);
 
+  const carouselItems: CarouselItem[] = [
+    { id: 1, src: 'https://via.placeholder.com/400x300?text=Carousel+Item+1', alt: 'Carousel Item 1' },
+    { id: 2, src: 'https://via.placeholder.com/400x300?text=Carousel+Item+2', alt: 'Carousel Item 2' },
+    { id: 3, src: 'https://via.placeholder.com/400x300?text=Carousel+Item+3', alt: 'Carousel Item 3' },
+  ];
 
-  const swiperoni = async (action: 'like' | 'dislike') => {
-    if (profiles.length === 0) return;
-
-    const currProf = profiles[currentProfile];
-    try {
-      const userDocRef = doc(db, 'Users', user_uid);
-      const userDoc = await getDoc(userDocRef);
-
-      if (userDoc.exists()) {
-        const userData = userDoc.data();
-        const swipes = userData.swipes || {};
-
-        if (action === 'like') {
-          const updatedRight = [...(swipes.right || []), currProf.id];
-          await updateDoc(userDocRef, {
-            'swipes.right': updatedRight,
-          });
-        } else if (action === 'dislike') {
-          const updatedLeft = [...(swipes.left || []), currProf.id];
-          await updateDoc(userDocRef, {
-            'swipes.left': updatedLeft,
-          });
-        }
-      }
 
       setCurrentProfile((prevIndex) => prevIndex + 1);
     } catch (error) {
@@ -146,33 +128,45 @@ const LandingPage: React.FC = () => {
         </div>
       </header>
 
-      <main className="flex-grow container mx-auto px-4 py-8">
-        {error && <p className="text-red-500">{error}</p>}
-        <div className="flex flex-col items-center">
-          <img
-            src={currProfile.imageUrl}
-            alt={`${currProfile.firstName} ${currProfile.lastName}`}
-            className="w-full max-w-md h-72 object-cover rounded"
-          />
-          <h2 className="text-2xl font-semibold mt-4">
-          {currProfile.firstName} {currProfile.lastName}
-          </h2>
-          <p className="text-gray-600 text-center mt-2">{currProfile.bio}</p>
 
-          <div className="flex justify-center mt-4 space-x-4">
-            <button
-              onClick={() => swiperoni('like')}
-              className="bg-green-500 text-white px-6 py-3 rounded-lg"
-            >
-              Like
-            </button>
-            <button
-              onClick={() => swiperoni('dislike')}
-              className="bg-red-500 text-white px-6 py-3 rounded-lg"
-            >
-              Dislike
-            </button>
+      <main className="flex-grow container mx-auto px-4 py-8 flex flex-col items-center justify-center">
+        <div className="carousel-container">
+          <div className="carousel">
+            {carouselItems.map((item, index) => (
+              <div
+                key={item.id}
+                className={`carousel-item ${index === currentSlide ? 'active' : ''}`}
+              >
+                <img src={item.src} alt={item.alt} />
+              </div>
+            ))}
           </div>
+
+          <div className="carousel-controls">
+            <button className="carousel-button" onClick={prevSlide}>Prev</button>
+            <button className="carousel-button" onClick={nextSlide}>Next</button>
+          </div>
+        </div>
+
+        <div className="profile-card">
+          <h2>John Doe</h2>
+          <p>This is a test bio :D I like long walks on the beach</p>
+        </div>
+
+        <div className="action-buttons">
+          <button className="action-button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-2">
+              <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path>
+            </svg>
+            Like
+          </button>
+          <button className="action-button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-2">
+              <path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"></path>
+            </svg>
+            Dislike
+          </button>
+
         </div>
       </main>
 
