@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import Footer from '../componets/Footer';
-import LastActive from '../componets/LastActive';
+
+import "../css/chattingPage.css";
+
 
 interface Message {
   id: number;

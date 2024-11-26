@@ -106,11 +106,21 @@ const SignUpPage: React.FC = () => {
   };
 
   return (
+    <>
+    <div>
+    <h1 className="title">SwoopIn</h1>
+          <img
+            alt="SwoopIn"
+            src="https://a.espncdn.com/i/teamlogos/ncaa/500/2199.png"
+            className="mx-auto h-20 w-20"
+          />
+    </div>
     <div className="sign-up-page container">
       <div className="sign-up-layout">
         <h1 className="sign-up-title">Sign Up Page</h1>
         <form onSubmit={handleSignUp} className="form">
-          <label htmlFor="email" className="label">Enter your email</label>
+          <div className="text-left">
+          <label htmlFor="email" className="label text-left">Enter your email</label>
           <input
             type="email"
             id="email"
@@ -119,6 +129,7 @@ const SignUpPage: React.FC = () => {
             onChange={(e) => setEmail(e.target.value)}
             className="input-field"
           />
+          
 
           <label htmlFor="password" className="label">Enter your new password</label>
           <input
@@ -139,7 +150,7 @@ const SignUpPage: React.FC = () => {
             onChange={(e) => setConfirmPassword(e.target.value)}
             className="input-field"
           />
-
+        </div>
           <button type="submit" className="submit-button">
             {isVerificationSent ? "Check Email for Verification" : "Proceed to Create Profile"}
           </button>
@@ -154,6 +165,7 @@ const SignUpPage: React.FC = () => {
         <a href="/" className="back-link">Back to Login</a>
       </div>
     </div>
+    </>
   );
 };
 

@@ -169,9 +169,10 @@ const ChatPage: React.FC = () => {
 
   return (
     <div className="chat-page-container flex flex-col min-h-screen">
-      <header className="chat-page-header">
-        <h1>Your Chats</h1>
-      </header>
+      
+          <h1 className="header">Your Chats</h1>
+      
+  
 
       <main className="chat-list-container">
         {isLoading ? (

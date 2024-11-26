@@ -1,4 +1,11 @@
-
+:root {
+  --primary-color: #047857; /* Primary color for buttons and header */
+  --text-color: #ffffff;
+  --background-color: #f9f9f9;
+  --button-bg-color: var(--primary-color);
+  --button-hover-color: #1c2e5a;
+  --carousel-border-color: var(--primary-color);
+}
 body {
     font-family: Arial, sans-serif;
     background-color: #f9f9f9;
@@ -19,7 +26,7 @@ body {
     text-align: center;
   }
   
-\  .container img {
+\  .container-img {
     height: 80px;
     width: 80px;
     margin: 0 auto;
@@ -29,22 +36,23 @@ body {
     text-align: center;
     font-size: 2rem;
     margin-bottom: 1rem;
-    color: #333;
+    color: #000000;
   }
   
   .title {
     margin-top: 2.5rem;
     font-size: 1.75rem;
     font-weight: bold;
-    color: #1f2937;
+    color: #000000;
   }
   
 
   .form-label {
     display: block;
+    margin-top: 0.5rem;
     font-size: 0.875rem;
-    font-weight: 500;
-    color: #1f2937;
+    font-weight: 600;
+    color: #000000;
     margin-bottom: 0.5rem;
   }
   
@@ -54,7 +62,7 @@ body {
     padding: 0.75rem 0.75rem;
     border-radius: 0.375rem;
     border: 1px solid #e5e7eb;
-    color: #1f2937;
+    color: #000000;
     background-color: #fff;
     font-size: 0.875rem;
     line-height: 1.5;
@@ -62,8 +70,8 @@ body {
   
   .input-field:focus {
     outline: none;
-    box-shadow: 0 0 0 2px #6366f1;
-    border-color: #6366f1;
+    box-shadow: 0 0 0 2px #047857;
+    border-color: #047857;
   }
   
 
@@ -71,11 +79,11 @@ body {
     display: flex;
     width: 100%;
     justify-content: center;
-    background-color: #10b981;
+    background-color: #047857;
     padding: 0.75rem 1rem;
-    font-size: 0.875rem;
+    font-size: 1.2rem;
     font-weight: 600;
-    color: white;
+    color: #fff;
     border-radius: 0.375rem;
     cursor: pointer;
     text-align: center;
@@ -83,18 +91,29 @@ body {
   }
   
   .button:hover {
+    display: flex;
+    width: 100%;
+    justify-content: center;
     background-color: #047857;
+    padding: 0.75rem 1rem;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #fff;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s ease;
   }
 
   .text-green {
-    color: #10b981;
-    font-weight: 600;
+    color: #047857;
+    font-weight: 300;
     text-decoration: none;
     transition: color 0.3s ease;
   }
-  
+
   .text-green:hover {
-    color: #047857;
+    color: #07a679;
   }
   
   .error-message {
