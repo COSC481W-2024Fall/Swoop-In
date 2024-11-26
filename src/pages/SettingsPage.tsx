@@ -5,6 +5,8 @@ import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { sendPasswordResetEmail } from 'firebase/auth';
 import Footer from '../componets/Footer';
 import "../css/settingsPage.css";
+import LastActive from '../componets/LastActive';
+
 
 const SettingsPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -28,10 +30,11 @@ const SettingsPage: React.FC = () => {
           setActiveStatus(userData?.settings?.activeStatus ?? true);
           setReceiveNotifications(userData?.settings?.notification ?? true);
 
-          // Apply dark/light mode from the database
+          
           const isDarkMode = !userData.settings?.lightMode;
           setIsDarkMode(isDarkMode);
-          document.body.classList.toggle('dark-mode', isDarkMode); // Update body class for global styling
+          document.body.classList.toggle('dark-mode', isDarkMode); 
+
         }
       } catch (error) {
         console.error("Error fetching settings:", error);
@@ -64,14 +67,15 @@ const SettingsPage: React.FC = () => {
     const newDarkModeState = !isDarkMode;
 
     try {
-      // Update the dark mode in the database
+
       await updateDoc(doc(db, "Users", user_uid), {
         "settings.lightMode": !newDarkModeState,
       });
 
-      // Update the local state and apply the theme
+      
       setIsDarkMode(newDarkModeState);
-      document.body.classList.toggle('dark-mode', newDarkModeState); // Update body class for global styling
+      document.body.classList.toggle('dark-mode', newDarkModeState); 
+
     } catch (error) {
       console.error("Error updating dark mode setting:", error);
     }
@@ -117,6 +121,7 @@ const SettingsPage: React.FC = () => {
 
   return (
     <div className={`settings-container ${isDarkMode ? 'dark-mode' : ''}`}>
+      <LastActive/>
       <header className="header">
         <h1>Settings</h1>
       </header>

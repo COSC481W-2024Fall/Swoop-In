@@ -1,13 +1,14 @@
 :root {
-  --primary-color: #006644; /* Primary color for buttons and header */
-  --text-color: #ffffff; /* Default text color */
-  --background-color: #f3f4f6; /* Light mode background color */
-  --dark-background-color: #121212; /* Dark mode background color */
-  --dark-text-color: #ffffff; /* Dark mode text color */
-  --content-box-light: #ffffff; /* Light mode content box color */
-  --content-box-dark: #1e1e1e; /* Dark mode content box color */
-  --button-bg-color: var(--primary-color); /* Button background color */
-  --button-hover-color: #06402b; /* Button hover color */
+  --primary-color: #006644; 
+  --text-color: #ffffff; 
+  --background-color: #f3f4f6;
+  --dark-background-color: #121212;
+  --dark-text-color: #ffffff; 
+  --content-box-light: #ffffff; 
+  --content-box-dark: #1e1e1e; 
+  --button-bg-color: var(--primary-color);
+  --button-hover-color: #06402b; 
+
 }
 
 body {

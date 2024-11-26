@@ -4,6 +4,8 @@ import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { auth, db } from '../firebase-config';
 import Footer from "../componets/Footer";
 import "../css/profilePage.css";
+import LastActive from '../componets/LastActive';
+
 
 interface Profile {
   firstName: string;
@@ -29,7 +31,7 @@ const ProfilePage: React.FC = () => {
   const [isSuccess, setIsSuccess] = useState<boolean | null>(null);
 
   useEffect(() => {
-    let isMounted = true; // Prevent state updates if the component unmounts during async calls
+    let isMounted = true; 
 
     const fetchUserProfile = async () => {
       try {
@@ -46,7 +48,6 @@ const ProfilePage: React.FC = () => {
           });
           setInitialProfile(userData);
 
-          // Apply the light/dark mode from the database settings
           setIsDarkMode(!userData.settings?.lightMode);
         } else if (isMounted) {
           setMessage("User profile not found.");
@@ -78,7 +79,8 @@ const ProfilePage: React.FC = () => {
     checkUserAuthorization();
 
     return () => {
-      isMounted = false; // Cleanup function to avoid setting state on unmounted component
+      isMounted = false; 
+
     };
   }, [user_uid, navigate]);
 
@@ -148,6 +150,8 @@ const ProfilePage: React.FC = () => {
 
   return (
     <div className={`profile-container ${isDarkMode ? 'dark-mode' : ''}`}>
+      <LastActive/>
+
       <div className="profile-header">Edit Profile</div>
 
       <div className="profile-layout">

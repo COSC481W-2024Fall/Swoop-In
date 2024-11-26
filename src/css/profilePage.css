@@ -8,9 +8,10 @@
 }
 
 .profile-container.dark-mode {
-    --background-color: #121212; /* Dark mode background */
-    --text-color: #ffffff; /* Dark mode text color */
+    --background-color: #121212;
+    --text-color: #000000; 
 }
+
 
 .profile-header {
     width: 100%;
@@ -24,17 +25,17 @@
 
 .profile-layout {
     max-width: 600px;
-    width: 100%; /* Default to full width */
+    width: 100%; 
     margin: 40px auto;
     padding: 20px;
-    background-color: var(--background-box-color, #f5f5f5); /* Light grey box in light mode */
+    background-color: var(--background-box-color, #f5f5f5); 
     border-radius: 8px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
     color: var(--text-color);
 }
 
 .profile-layout.dark-mode {
-    --background-box-color: #1e1e1e; /* Darker grey for the inner box in dark mode */
+    --background-box-color: #1e1e1e; 
 }
 
 .label {
@@ -120,25 +121,27 @@
     margin-bottom: 10px;
 }
 
-/* Media Query for Phone Screens */
+
 @media (max-width: 768px) {
     .profile-layout {
-        width: 75%; /* Set width to 75% for phone-sized screens */
-        margin: 20px auto; /* Center the box on smaller screens */
-        padding: 15px; /* Reduce padding for smaller screens */
+        width: 75%;
+        margin: 20px auto; 
+        padding: 15px; 
     }
 
     .profile-header {
-        font-size: 20px; /* Reduce header font size for smaller screens */
+        font-size: 20px; 
+
         padding: 12px;
     }
 
     .button-container {
         flex-direction: column;
-        gap: 8px; /* Reduce gap between buttons */
+        gap: 8px; 
     }
 
     .input-field, .select-field, .textarea-field, .file-input {
-        font-size: 13px; /* Slightly smaller input fields */
+        font-size: 13px; 
+
     }
 }

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import Footer from '../componets/Footer';
+import LastActive from '../componets/LastActive';
 
 interface Message {
   id: number;
@@ -44,6 +45,7 @@ const ChattingPage: React.FC = () => {
 
   return (
     <div className="flex flex-col min-h-screen">
+      <LastActive/>
       <header className="bg-primary text-white py-4">
         <div className="container mx-auto px-4 flex justify-between items-center">
           <Link to="/chat" className="text-white text-lg">&lt; Back to Chats</Link>
