@@ -1,20 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useParams, useNavigate} from 'react-router-dom';
-import {auth} from '../firebase-config';
+import {auth, db} from '../firebase-config';
 import Footer from '../componets/Footer';
+import { collection, doc, getDocs, getDoc, updateDoc } from 'firebase/firestore';
 
-interface CarouselItem {
-  id: number;
-  src: string;
-  alt: string;
+
+interface Profile {
+  id: string;
+  firstName: string;
+  lastName: string;
+  imageUrl: string;
+  bio: string;
 }
 
 const LandingPage: React.FC = () => {
-  const [currentSlide, setCurrentSlide] = useState(0);
+  const [profiles, setProfiles] = useState<Profile[]>([]);
+  const [currentProfile, setCurrentProfile] = useState(0)
+  const [error, setError] = useState<string | null>(null);
   const { id } = useParams<{ id: string }>();
   const user_uid = id ?? ""; 
-
-
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -28,6 +32,46 @@ const LandingPage: React.FC = () => {
 
       if (currentUser.uid !== user_uid) {
         navigate(`/LandingPage/${currentUser.uid}`, { replace: true });
+      } else {
+        await fetchProfiles();
+      }
+    };
+
+
+    const fetchProfiles = async () => {
+      try {
+        const usersCollection = collection(db, "Users");
+        const snapshot = await getDocs(usersCollection);
+        const userUIDs = snapshot.docs.map((doc) => doc.id);
+        
+        const filter = userUIDs.filter((uid) => uid !== user_uid);
+
+        const profiles: Profile[] = [];
+
+        for (const uid of filter) {
+          const userDoc = await getDoc(doc(db, "Users", uid));
+          if (userDoc.exists()) {
+            const userData = userDoc.data();
+            profiles.push({
+              id: uid,
+              firstName: userData.firstName || "",
+              lastName: userData.lastName || "",
+              imageUrl: userData.images?.[0] || "/default-profile.png",
+              bio: userData.bio || "",
+            });
+          }
+        }
+
+
+
+
+
+        setProfiles(profiles);
+
+      } catch (error) {
+        console.error("Error fetching profiles:", error);
+        setError("Failed to load profiles. Please try again later.");
+
       }
     };
 
@@ -35,79 +79,97 @@ const LandingPage: React.FC = () => {
   }, [user_uid, navigate]);
 
 
-  const carouselItems: CarouselItem[] = [
-    { id: 1, src: '/placeholder.svg?height=300&width=400', alt: 'Carousel Item 1' },
-    { id: 2, src: '/placeholder.svg?height=300&width=400', alt: 'Carousel Item 2' },
-    { id: 3, src: '/placeholder.svg?height=300&width=400', alt: 'Carousel Item 3' },
-  ];
+  const swiperoni = async (action: 'like' | 'dislike') => {
+    if (profiles.length === 0) return;
 
-  const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % carouselItems.length);
+    const currProf = profiles[currentProfile];
+    try {
+      const userDocRef = doc(db, 'Users', user_uid);
+      const userDoc = await getDoc(userDocRef);
+
+      if (userDoc.exists()) {
+        const userData = userDoc.data();
+        const swipes = userData.swipes || {};
+
+        if (action === 'like') {
+          const updatedRight = [...(swipes.right || []), currProf.id];
+          await updateDoc(userDocRef, {
+            'swipes.right': updatedRight,
+          });
+        } else if (action === 'dislike') {
+          const updatedLeft = [...(swipes.left || []), currProf.id];
+          await updateDoc(userDocRef, {
+            'swipes.left': updatedLeft,
+          });
+        }
+      }
+
+      setCurrentProfile((prevIndex) => prevIndex + 1);
+    } catch (error) {
+      console.error('Error swiping:', error);
+      setError('Failed to save swipe. Please try again.');
+    }
   };
 
-  const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + carouselItems.length) % carouselItems.length);
-  };
+  if (currentProfile >= profiles.length) {
+    return (
+      <div className="flex flex-col min-h-screen">
+        <header className="bg-primary text-white py-4">
+          <div className="container mx-auto px-4 flex justify-between items-center">
+            <h1 className="text-2xl font-bold">Swoop In</h1>
+          </div>
+        </header>
+        <main className="flex-grow container mx-auto px-4 py-8">
+          <p className="text-center text-lg font-semibold">
+            No more profiles available. Check back later!
+          </p>
+        </main>
+        <Footer user_uid={user_uid} />
+      </div>
+    );
+  }
+
+  const currProfile = profiles[currentProfile];
+  
+
+
+
+
+
+
 
   return (
     <div className="flex flex-col min-h-screen">
-      <header className="bg-primary text-white py-4 relative">
+      <header className="bg-primary text-white py-4">
         <div className="container mx-auto px-4 flex justify-between items-center">
           <h1 className="text-2xl font-bold">Swoop In</h1>
-          
         </div>
       </header>
 
-      <main className="flex-grow container mx-auto px-4 py-8 flex flex-col items-center justify-center">
-        <div className="w-full max-w-md relative">
-          <div className="border-4 border-primary rounded-lg overflow-hidden">
-            <div className="relative" style={{ width: '400px', height: '300px' }}>
-              {carouselItems.map((item, index) => (
-                <div
-                  key={item.id}
-                  className={`absolute top-0 left-0 w-full h-full transition-opacity duration-300 ${
-                    index === currentSlide ? 'opacity-100' : 'opacity-0'
-                  }`}
-                >
-                  <img
-                    src={item.src}
-                    alt={item.alt}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="flex justify-between mt-4">
-            <button
-              onClick={prevSlide}
-              className="bg-primary text-white px-4 py-2 rounded-full"
-            >
-              Prev
-            </button>
-            <button
-              onClick={nextSlide}
-              className="bg-primary text-white px-4 py-2 rounded-full"
-            >
-              Next
-            </button>
-          </div>
-
-          <div className="bg-white shadow-md rounded-lg mt-4 p-4">
-            <h2 className="text-xl font-semibold mb-2">John Doe</h2>
-            <p className="text-sm text-gray-600">
-              This is a test bio :D I like long walks on the beach
-            </p>
-          </div>
+      <main className="flex-grow container mx-auto px-4 py-8">
+        {error && <p className="text-red-500">{error}</p>}
+        <div className="flex flex-col items-center">
+          <img
+            src={currProfile.imageUrl}
+            alt={`${currProfile.firstName} ${currProfile.lastName}`}
+            className="w-full max-w-md h-72 object-cover rounded"
+          />
+          <h2 className="text-2xl font-semibold mt-4">
+          {currProfile.firstName} {currProfile.lastName}
+          </h2>
+          <p className="text-gray-600 text-center mt-2">{currProfile.bio}</p>
 
           <div className="flex justify-center mt-4 space-x-4">
-            <button className="bg-primary text-white px-4 py-2 rounded-lg flex items-center">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-2"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg>
+            <button
+              onClick={() => swiperoni('like')}
+              className="bg-green-500 text-white px-6 py-3 rounded-lg"
+            >
               Like
             </button>
-            <button className="bg-primary text-white px-4 py-2 rounded-lg flex items-center">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-2"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm7-13h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"></path></svg>
+            <button
+              onClick={() => swiperoni('dislike')}
+              className="bg-red-500 text-white px-6 py-3 rounded-lg"
+            >
               Dislike
             </button>
           </div>
