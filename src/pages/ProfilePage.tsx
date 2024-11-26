@@ -4,6 +4,7 @@ import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { auth, db } from '../firebase-config';
 import Footer from "../componets/Footer";
 import "../css/profilePage.css";
+import LastActive from '../componets/LastActive';
 
 interface Profile {
   firstName: string;
@@ -147,6 +148,7 @@ const ProfilePage: React.FC = () => {
 
   return (
     <div className={`profile-container ${isDarkMode ? 'dark-mode' : ''}`}>
+      <LastActive/>
       <div className="profile-header">Edit Profile</div>
 
       <div className="profile-layout">

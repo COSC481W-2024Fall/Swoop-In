@@ -3,7 +3,7 @@ import { Link, useParams, useNavigate } from 'react-router-dom';
 import { auth } from '../firebase-config';
 import Footer from '../componets/Footer';
 import "../css/landingPage.css";
-
+import LastActive from '../componets/LastActive';
 interface CarouselItem {
   id: number;
   src: string;
@@ -49,12 +49,13 @@ const LandingPage: React.FC = () => {
 
   return (
     <div className="flex flex-col min-h-screen">
+      <LastActive/>
       <header className="bg-primary text-white py-4">
         <div className="container mx-auto px-4 flex justify-between items-center">
           <h1 className="text-2xl font-bold">Swoop In</h1>
         </div>
       </header>
-
+     
       <main className="flex-grow container mx-auto px-4 py-8 flex flex-col items-center justify-center">
         <div className="carousel-container">
           <div className="carousel">

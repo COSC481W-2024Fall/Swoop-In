@@ -5,6 +5,7 @@ import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import { sendPasswordResetEmail } from 'firebase/auth';
 import Footer from '../componets/Footer';
 import "../css/settingsPage.css";
+import LastActive from '../componets/LastActive';
 
 const SettingsPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -117,6 +118,7 @@ const SettingsPage: React.FC = () => {
 
   return (
     <div className={`settings-container ${isDarkMode ? 'dark-mode' : ''}`}>
+      <LastActive/>
       <header className="header">
         <h1>Settings</h1>
       </header>

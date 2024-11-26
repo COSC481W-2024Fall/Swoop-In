@@ -9,8 +9,9 @@
 
 .profile-container.dark-mode {
     --background-color: #121212;
-    --text-color: #ffffff; 
+    --text-color: #000000; 
 }
+
 
 .profile-header {
     width: 100%;
