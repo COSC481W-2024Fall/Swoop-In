@@ -131,6 +131,7 @@
 
     .profile-header {
         font-size: 20px; 
+
         padding: 12px;
     }
 
@@ -141,5 +142,6 @@
 
     .input-field, .select-field, .textarea-field, .file-input {
         font-size: 13px; 
+
     }
 }

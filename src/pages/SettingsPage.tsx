@@ -7,6 +7,7 @@ import Footer from '../componets/Footer';
 import "../css/settingsPage.css";
 import LastActive from '../componets/LastActive';
 
+
 const SettingsPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const user_uid = id ?? ""; 
@@ -33,6 +34,7 @@ const SettingsPage: React.FC = () => {
           const isDarkMode = !userData.settings?.lightMode;
           setIsDarkMode(isDarkMode);
           document.body.classList.toggle('dark-mode', isDarkMode); 
+
         }
       } catch (error) {
         console.error("Error fetching settings:", error);
@@ -65,7 +67,7 @@ const SettingsPage: React.FC = () => {
     const newDarkModeState = !isDarkMode;
 
     try {
-      
+
       await updateDoc(doc(db, "Users", user_uid), {
         "settings.lightMode": !newDarkModeState,
       });
@@ -73,6 +75,7 @@ const SettingsPage: React.FC = () => {
       
       setIsDarkMode(newDarkModeState);
       document.body.classList.toggle('dark-mode', newDarkModeState); 
+
     } catch (error) {
       console.error("Error updating dark mode setting:", error);
     }

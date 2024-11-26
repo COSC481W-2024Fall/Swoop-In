@@ -25,10 +25,11 @@
     transition: color 0.2s ease;
   }
   
+
   .footer-link:hover {
     color: #333; 
   }
-  
+
   .footer-icon {
     width: 24px;
     height: 24px;

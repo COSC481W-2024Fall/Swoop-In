@@ -6,6 +6,7 @@ import Footer from '../componets/Footer';
 import "../css/matchPage.css";
 import LastActive from '../componets/LastActive';
 
+
 interface Profile {
   id: string;
   firstName: string;
@@ -123,6 +124,7 @@ const MatchPage: React.FC = () => {
   return (
     <div className={`match-page-container ${isDarkMode ? 'dark-mode' : ''}`}>
       <LastActive/>
+
       <header className="match-page-header">
         <h1 className="match-page-title">Your Matches</h1>
       </header>

@@ -6,6 +6,7 @@ import Footer from "../componets/Footer";
 import "../css/profilePage.css";
 import LastActive from '../componets/LastActive';
 
+
 interface Profile {
   firstName: string;
   lastName: string;
@@ -31,6 +32,7 @@ const ProfilePage: React.FC = () => {
 
   useEffect(() => {
     let isMounted = true; 
+
     const fetchUserProfile = async () => {
       try {
         const docRef = doc(db, "Users", user_uid);
@@ -46,7 +48,6 @@ const ProfilePage: React.FC = () => {
           });
           setInitialProfile(userData);
 
-          
           setIsDarkMode(!userData.settings?.lightMode);
         } else if (isMounted) {
           setMessage("User profile not found.");
@@ -79,6 +80,7 @@ const ProfilePage: React.FC = () => {
 
     return () => {
       isMounted = false; 
+
     };
   }, [user_uid, navigate]);
 
@@ -149,6 +151,7 @@ const ProfilePage: React.FC = () => {
   return (
     <div className={`profile-container ${isDarkMode ? 'dark-mode' : ''}`}>
       <LastActive/>
+
       <div className="profile-header">Edit Profile</div>
 
       <div className="profile-layout">

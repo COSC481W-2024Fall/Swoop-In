@@ -8,12 +8,16 @@ interface CarouselItem {
   id: number;
   src: string;
   alt: string;
+
 }
 
 const LandingPage: React.FC = () => {
-  const [currentSlide, setCurrentSlide] = useState(0);
+  const [profiles, setProfiles] = useState<Profile[]>([]);
+  const [currentProfile, setCurrentProfile] = useState(0)
+  const [error, setError] = useState<string | null>(null);
   const { id } = useParams<{ id: string }>();
   const user_uid = id ?? "";
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -27,6 +31,46 @@ const LandingPage: React.FC = () => {
 
       if (currentUser.uid !== user_uid) {
         navigate(`/LandingPage/${currentUser.uid}`, { replace: true });
+      } else {
+        await fetchProfiles();
+      }
+    };
+
+
+    const fetchProfiles = async () => {
+      try {
+        const usersCollection = collection(db, "Users");
+        const snapshot = await getDocs(usersCollection);
+        const userUIDs = snapshot.docs.map((doc) => doc.id);
+        
+        const filter = userUIDs.filter((uid) => uid !== user_uid);
+
+        const profiles: Profile[] = [];
+
+        for (const uid of filter) {
+          const userDoc = await getDoc(doc(db, "Users", uid));
+          if (userDoc.exists()) {
+            const userData = userDoc.data();
+            profiles.push({
+              id: uid,
+              firstName: userData.firstName || "",
+              lastName: userData.lastName || "",
+              imageUrl: userData.images?.[0] || "/default-profile.png",
+              bio: userData.bio || "",
+            });
+          }
+        }
+
+
+
+
+
+        setProfiles(profiles);
+
+      } catch (error) {
+        console.error("Error fetching profiles:", error);
+        setError("Failed to load profiles. Please try again later.");
+
       }
     };
 
@@ -39,13 +83,40 @@ const LandingPage: React.FC = () => {
     { id: 3, src: 'https://via.placeholder.com/400x300?text=Carousel+Item+3', alt: 'Carousel Item 3' },
   ];
 
-  const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % carouselItems.length);
+
+      setCurrentProfile((prevIndex) => prevIndex + 1);
+    } catch (error) {
+      console.error('Error swiping:', error);
+      setError('Failed to save swipe. Please try again.');
+    }
   };
 
-  const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + carouselItems.length) % carouselItems.length);
-  };
+  if (currentProfile >= profiles.length) {
+    return (
+      <div className="flex flex-col min-h-screen">
+        <header className="bg-primary text-white py-4">
+          <div className="container mx-auto px-4 flex justify-between items-center">
+            <h1 className="text-2xl font-bold">Swoop In</h1>
+          </div>
+        </header>
+        <main className="flex-grow container mx-auto px-4 py-8">
+          <p className="text-center text-lg font-semibold">
+            No more profiles available. Check back later!
+          </p>
+        </main>
+        <Footer user_uid={user_uid} />
+      </div>
+    );
+  }
+
+  const currProfile = profiles[currentProfile];
+  
+
+
+
+
+
+
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -55,7 +126,7 @@ const LandingPage: React.FC = () => {
           <h1 className="text-2xl font-bold">Swoop In</h1>
         </div>
       </header>
-     
+
       <main className="flex-grow container mx-auto px-4 py-8 flex flex-col items-center justify-center">
         <div className="carousel-container">
           <div className="carousel">
@@ -93,6 +164,7 @@ const LandingPage: React.FC = () => {
             </svg>
             Dislike
           </button>
+
         </div>
       </main>
 
